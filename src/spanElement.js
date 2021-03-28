@@ -4,8 +4,11 @@ const spanElement = (props) => {
   return (
     <div className="container">
       {props.dataNames.map((name) => {
+        const arrOfClasses = ["element"];
+        if (name.sex === "f") arrOfClasses.push("girl");
+        if (name.sex === "m") arrOfClasses.push("boy");
         return (
-          <div className="element" key={name.js}>
+          <div className={arrOfClasses.join(" ")} key={name.id}>
             {name.name}
           </div>
         );
