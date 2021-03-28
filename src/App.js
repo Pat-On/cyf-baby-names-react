@@ -76,6 +76,8 @@ function App() {
       case 3:
         arr = [...jsonData];
         break;
+      default:
+        break;
     }
     const query = e.target.value;
     const filteredName = arr.filter((item) => {
