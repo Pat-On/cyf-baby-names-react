@@ -1,9 +1,10 @@
 import "./App.css";
+import React, { useState } from "react";
 
 import SpanElement from "./spanElement";
+import SearchBar from "./SearchBar";
 
 const jsonData = require("../src/data/babyNamesData.json");
-// const dataKids = JSON.parse(jsonData);
 
 jsonData.sort((a, b) => {
   if (a.name[0] < b.name[0]) return -1;
@@ -12,9 +13,21 @@ jsonData.sort((a, b) => {
 });
 
 function App() {
+  const [arrOfNames, arrOfNamesHandler] = useState(jsonData);
+
+  const searchNameFunction = (e) => {
+    e.preventDefault();
+    const query = e.target.value;
+    const filteredName = jsonData.filter((item) => {
+      return item.name.toUpperCase().includes(query.toUpperCase());
+    });
+    arrOfNamesHandler(filteredName);
+  };
+
   return (
     <div className="App">
-      <SpanElement dataNames={jsonData} />
+      <SearchBar searchFunction={searchNameFunction} />
+      <SpanElement dataNames={arrOfNames} />
     </div>
   );
 }
