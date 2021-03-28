@@ -14,6 +14,35 @@ jsonData.sort((a, b) => {
 
 function App() {
   const [arrOfNames, arrOfNamesHandler] = useState(jsonData);
+  const [arrOfFavorite, arrOfFavoriteHandler] = useState([]);
+
+  const choosingFavoritesName = (e, id) => {
+    const query = id;
+    const arrayOfNamesCopy = [...arrOfNames];
+    const indexPosition = arrayOfNamesCopy.findIndex(
+      (item) => item.id === query
+    );
+
+    const element = arrayOfNamesCopy.splice(indexPosition, 1);
+
+    const newArrayOfFavorites = [...arrOfFavorite, ...element];
+
+    arrOfNamesHandler(arrayOfNamesCopy);
+    arrOfFavoriteHandler(newArrayOfFavorites);
+  };
+
+  const removeFavoriteNameToList = (e, id) => {
+    const query = id;
+    const arrayOfNamesCopy = [...arrOfFavorite];
+    const indexPosition = arrayOfNamesCopy.findIndex(
+      (item) => item.id === query
+    );
+    const element = arrayOfNamesCopy.splice(arrayOfNamesCopy[indexPosition], 1);
+    const newArrayOfNames = [...arrOfNames, ...element];
+
+    arrOfNamesHandler(newArrayOfNames);
+    arrOfFavoriteHandler(arrayOfNamesCopy);
+  };
 
   const searchNameFunction = (e) => {
     e.preventDefault();
@@ -24,10 +53,26 @@ function App() {
     arrOfNamesHandler(filteredName);
   };
 
+  let favorites = null;
+  if (arrOfFavorite.length > 0) {
+    favorites = (
+      <div>
+        <span>Favorites: </span>{" "}
+        <SpanElement
+          choosingElement={removeFavoriteNameToList}
+          dataNames={arrOfFavorite}
+        />
+      </div>
+    );
+  }
   return (
     <div className="App">
+      {favorites}
       <SearchBar searchFunction={searchNameFunction} />
-      <SpanElement dataNames={arrOfNames} />
+      <SpanElement
+        choosingElement={choosingFavoritesName}
+        dataNames={arrOfNames}
+      />
     </div>
   );
 }

@@ -8,7 +8,11 @@ const spanElement = (props) => {
         if (name.sex === "f") arrOfClasses.push("girl");
         if (name.sex === "m") arrOfClasses.push("boy");
         return (
-          <div className={arrOfClasses.join(" ")} key={name.id}>
+          <div
+            onClick={(e) => props.choosingElement(e, name.id)}
+            className={arrOfClasses.join(" ")}
+            key={name.id}
+          >
             {name.name}
           </div>
         );
